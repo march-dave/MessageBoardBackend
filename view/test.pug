@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+html(lang="en")
+head
+  meta(charset="UTF-8")
+  title Document
+body
+h1 BOARD~!
+
+  table
+    thead
+      tr
+        th Time
+        th body
+    tbody
+      each eeach message in message
+      tr
+        td= messag.time
+        td= message.body
+
+form(method='POST', action='/api/dogs')
+  input(type='text', name='name')
+  input(type='text', name='name')
+  button Submit

@@ -30,6 +30,8 @@ exports.findAll = function(cb) {
 // and save it to the DB
 exports.create = function(dog, cb) {
 
+  console.log('cb', cb);
+
   if(!dog.name || !dog.kind) {
     return cb('Dog must have name and kind.');
   }
@@ -53,13 +55,36 @@ exports.create = function(dog, cb) {
   });
 };
 
+// removeById a new dog,
+// and delete it to the DB
+exports.removeById = function(id, cb) {
+
+  console.log('cb', cb);
+
+  this.findAll((err, dogs) => {
+    if(err) {
+      return cb(err);
+    }
+
+    for(var i = 0; i < dogs.length; i++){
+      if(dogs[i].id===id){
+        dogs.splice(i, 1);
+      }
+    }
+
+    fs.writeFile(dataFile, JSON.stringify(dogs), err => {
+      cb(err);
+    });
+  });
+};
+
 exports.findById = function(id, cb) {
   if(!id) return cb('id required.');
 
-  this.findAll((err, dogs) => {
+  this.findAll((err, array) => {
     if(err) return cb(err);
 
-    var dog = dogs.filter(dog => dog.id === id)[0];
+    var dog = array.filter(dog => dog.id === id)[0];
 
     cb(null, dog);
   });
